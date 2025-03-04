@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeatnNext Clothes Pricing Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #e6f7ff;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            width: 45%;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #2f8fee;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        .output-box {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .highlight {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0073e6;
+        }
+
+        .highlight2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>NeatnNext Clothes Pricing Calculator</h2>
+    <div class="container">
+        <div class="section">
+            <h3>Customer Calculation</h3>
+            <label>Total Amount Paid by Customer (₹):</label>
+            <input type="number" id="customer_amount" placeholder="Enter amount" required />
+            <button onclick="calculateCustomer()">Calculate</button>
+            <div id="customer_output" class="output-box"></div>
+        </div>
+        <div class="section">
+            <h3>Shopkeeper Calculation</h3>
+            <label>Amount Charged by Shopkeeper (₹):</label>
+            <input type="number" id="shopkeeper_amount" placeholder="Enter amount" required />
+            <button onclick="calculateShopkeeper()">Calculate</button>
+            <div id="shopkeeper_output" class="output-box"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateCustomer() {
+            let customerAmount = parseFloat(
+                document.getElementById("customer_amount").value
+            );
+
+            if (isNaN(customerAmount) || customerAmount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            let gst = (customerAmount * 18) / 100;
+            let afterGst = customerAmount - gst;
+            let companyCommission = afterGst / 10;
+            let shopkeeperEarnings = afterGst - companyCommission;
+
+            document.getElementById("customer_output").innerHTML = `
+                <p class="highlight"><b>Total Amount Paid by Customer:</b> ₹${customerAmount.toFixed(
+                2
+            )}</p>
+                <p><b>GST on Customer(18%):</b> ₹${gst.toFixed(2)}</p>
+                <p><b>Amount After GST:</b> ₹${afterGst.toFixed(2)}</p>
+                <p><b>Company Commission (10%):</b> ₹${companyCommission.toFixed(
+                2
+            )}</p>
+                <p class="highlight"><b>Shopkeeper Earnings:</b> ₹${shopkeeperEarnings.toFixed(
+                2
+            )}</p>
+            <hr>
+                <p class="highlight2"><b>Clothes Price on Website:</b> ₹${customerAmount.toFixed(
+                2
+            )} </p>
+            `;
+        }
+
+        function calculateShopkeeper() {
+            let shopkeeperEarnings = parseFloat(
+                document.getElementById("shopkeeper_amount").value
+            );
+
+            if (isNaN(shopkeeperEarnings) || shopkeeperEarnings <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            let companyCommission = shopkeeperEarnings / 9;
+            let afterGst = shopkeeperEarnings + companyCommission;
+            let gst = (afterGst * 18) / 82;
+            let totalAmount = afterGst + gst;
+
+            document.getElementById("shopkeeper_output").innerHTML = `
+        <p class="highlight"><b>Shopkeeper Earnings:</b> ₹${shopkeeperEarnings.toFixed(
+                2
+            )}</p>
+                
+                    <p><b>GST on Customer(18%):</b> ₹${gst.toFixed(2)}</p>
+                    <p><b>Amount Before GST:</b> ₹${afterGst.toFixed(2)}</p>
+                    <p><b>Company Commission (10%):</b> ₹${companyCommission.toFixed(
+                2
+            )}</p>
+                    <p class="highlight"><b>Total Amount to be Paid by Customer:</b> ₹${totalAmount.toFixed(
+                2
+            )}</p>
+            <hr>
+                <p class="highlight2"><b>Clothes Price on Website:</b> ₹${totalAmount.toFixed(
+                2
+            )} </p>
+                
+                
+                
+            
+                
+            `;
+        }
+    </script>
+</body>
+
+</html>
